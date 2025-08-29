@@ -13,6 +13,7 @@
       overflow-x: hidden;
     }
 
+    /* Login */
     #login {
       height: 100vh;
       display: flex;
@@ -20,60 +21,41 @@
       align-items: center;
       justify-content: center;
     }
-
-    #login h2 {
-      color: #d6336c;
-      margin-bottom: 20px;
-    }
-
+    #login h2 { color: #d6336c; margin-bottom: 20px; }
     #login input {
-      padding: 10px;
-      font-size: 1rem;
-      border: 2px solid #d6336c;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      outline: none;
+      padding: 10px; font-size: 1rem; border: 2px solid #d6336c;
+      border-radius: 10px; margin-bottom: 15px; outline: none;
     }
-
     #login button {
-      padding: 10px 20px;
-      font-size: 1rem;
-      background: #d6336c;
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background 0.3s;
+      padding: 10px 20px; font-size: 1rem; background: #d6336c; color: #fff;
+      border: none; border-radius: 10px; cursor: pointer; transition: background 0.3s;
     }
+    #login button:hover { background: #a91e50; }
 
-    #login button:hover {
-      background: #a91e50;
-    }
+    /* Album */
+    #album { display: none; }
+    header { padding: 40px 20px 16px; }
+    header h1 { font-size: 2.5rem; color: #d6336c; margin-bottom: 10px; }
+    header p { font-size: 1.1rem; color: #444; margin: 0 0 10px; }
 
-    #album {
-      display: none;
+    /* Counter pill */
+    #counter {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 16px;
+      background: rgba(214, 51, 108, 0.12);
+      border: 1.5px solid rgba(214, 51, 108, 0.35);
+      border-radius: 999px;
+      color: #a0174a;
+      font-weight: 600;
     }
-
-    header {
-      padding: 40px 20px 20px;
-    }
-
-    header h1 {
-      font-size: 2.5rem;
-      color: #d6336c;
-      margin-bottom: 10px;
-    }
-
-    header p {
-      font-size: 1.2rem;
-      color: #444;
-    }
+    #counter small { display:block; font-weight: 500; opacity: .9; }
 
     .gallery {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 20px;
-      padding: 40px;
+      padding: 30px 40px 40px;
       max-width: 1200px;
       margin: auto;
     }
@@ -85,66 +67,36 @@
       box-shadow: 0 6px 12px rgba(0,0,0,0.2);
       cursor: pointer;
     }
-
     .gallery-item img {
-      width: 100%;
-      height: 300px;
-      object-fit: cover;
-      transition: transform 0.4s;
-      display: block;
+      width: 100%; height: 300px; object-fit: cover;
+      transition: transform 0.4s; display: block;
     }
-
-    .gallery-item:hover img {
-      transform: scale(1.1);
-    }
+    .gallery-item:hover img { transform: scale(1.1); }
 
     .overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(0,0,0,0.6);
-      color: #fff;
-      padding: 10px;
-      font-size: 1rem;
-      opacity: 0;
-      transition: opacity 0.4s;
+      position: absolute; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6); color: #fff;
+      padding: 10px; font-size: 1rem;
+      opacity: 0; transition: opacity 0.4s;
     }
-
-    .gallery-item:hover .overlay {
-      opacity: 1;
-    }
+    .gallery-item:hover .overlay { opacity: 1; }
 
     footer {
-      margin-top: 40px;
-      padding: 20px;
-      font-size: 1.1rem;
-      color: #fff;
-      background: rgba(214, 51, 108, 0.85);
-      border-radius: 20px 20px 0 0;
+      margin-top: 20px; padding: 20px; font-size: 1.1rem; color: #fff;
+      background: rgba(214, 51, 108, 0.85); border-radius: 20px 20px 0 0;
     }
 
+    /* Hearts */
     .hearts {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 0;
+      position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0;
     }
-
     .heart {
-      position: absolute;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 20px;
-      animation: floatUp 6s linear infinite;
+      position: absolute; color: rgba(255,255,255,0.6);
+      font-size: 20px; animation: floatUp 6s linear infinite;
     }
-
     @keyframes floatUp {
       from { transform: translateY(100vh) scale(1); opacity: 1; }
-      to { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+      to   { transform: translateY(-10vh) scale(1.5); opacity: 0; }
     }
   </style>
 </head>
@@ -164,6 +116,12 @@
     <header>
       <h1>💌 Gửi đến em, người con gái anh thương 💌</h1>
       <p>Một góc nhỏ nơi anh cất giữ những kỷ niệm đẹp cùng em 💖</p>
+
+      <!-- Bộ đếm ngày quen nhau -->
+      <div id="counter">
+        ĐÃ BÊN NHAU: <span id="days">0</span> ngày
+        <small id="hms">00:00:00</small>
+      </div>
     </header>
 
     <section class="gallery" id="gallery"></section>
@@ -174,8 +132,11 @@
   </div>
 
   <script>
-    const SECRET_KEY = "iloveyou";  
+    /* ====== Cấu hình ====== */
+    const SECRET_KEY = "iloveyou";                 // ← đổi mật khẩu ở đây
+    const START_DATE = new Date("2024-04-28T21:00:00"); // ← NGÀY BẮT ĐẦU QUEN NHAU
 
+    /* ====== Login ====== */
     function checkKey() {
       const input = document.getElementById("secretInput").value;
       if (input === SECRET_KEY) {
@@ -183,11 +144,13 @@
         document.getElementById("album").style.display = "block";
         loadGallery();
         startHearts();
+        startCounter();
       } else {
         document.getElementById("errorMsg").style.display = "block";
       }
     }
 
+    /* ====== Captions cho ảnh ====== */
     // 👉 Danh sách caption cho từng ảnh
     const captions = [
       "Trốn ra DN chơi nè 😊",
@@ -207,8 +170,9 @@
       "Kíp nạn vào SG nè"
     ];
 
+    /* ====== Gallery ====== */
     function loadGallery() {
-      const totalImages = 15; 
+      const totalImages = 15;
       const gallery = document.getElementById("gallery");
       for (let i = 1; i <= totalImages; i++) {
         const item = document.createElement("div");
@@ -228,6 +192,7 @@
       }
     }
 
+    /* ====== Hearts ====== */
     function startHearts() {
       const heartsContainer = document.querySelector('.hearts');
       function createHeart() {
@@ -241,6 +206,32 @@
         setTimeout(() => heart.remove(), 7000);
       }
       setInterval(createHeart, 400);
+    }
+
+    /* ====== Counter ====== */
+    function startCounter() {
+      const daysEl = document.getElementById("days");
+      const hmsEl  = document.getElementById("hms");
+
+      function tick() {
+        const now = new Date();
+        const diffMs = now - START_DATE;
+
+        const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        const rest = diffMs % (1000 * 60 * 60 * 24);
+        const hours = Math.floor(rest / (1000 * 60 * 60));
+        const minutes = Math.floor((rest % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((rest % (1000 * 60)) / 1000);
+
+        daysEl.textContent = days.toLocaleString("vi-VN");
+        hmsEl.textContent =
+          String(hours).padStart(2, "0") + ":" +
+          String(minutes).padStart(2, "0") + ":" +
+          String(seconds).padStart(2, "0");
+      }
+
+      tick();                 // cập nhật ngay
+      setInterval(tick, 1000); // chạy mỗi giây
     }
   </script>
 </body>
