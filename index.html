@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Private Album 💖</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    #login {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #login h2 {
+      color: #d6336c;
+      margin-bottom: 20px;
+    }
+
+    #login input {
+      padding: 10px;
+      font-size: 1rem;
+      border: 2px solid #d6336c;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      outline: none;
+    }
+
+    #login button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background: #d6336c;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    #login button:hover {
+      background: #a91e50;
+    }
+
+    #album {
+      display: none;
+    }
+
+    header {
+      padding: 40px 20px 20px;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      color: #d6336c;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: #444;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+      cursor: pointer;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      transition: transform 0.4s;
+      display: block;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+
+    .overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      padding: 10px;
+      font-size: 1rem;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .gallery-item:hover .overlay {
+      opacity: 1;
+    }
+
+    footer {
+      margin-top: 40px;
+      padding: 20px;
+      font-size: 1.1rem;
+      color: #fff;
+      background: rgba(214, 51, 108, 0.85);
+      border-radius: 20px 20px 0 0;
+    }
+
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .heart {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 20px;
+      animation: floatUp 6s linear infinite;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(100vh) scale(1); opacity: 1; }
+      to { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Login -->
+  <div id="login">
+    <h2>🔒 Nhập Secret Key để xem album</h2>
+    <input type="password" id="secretInput" placeholder="Nhập mật khẩu...">
+    <button onclick="checkKey()">Xem Album</button>
+    <p id="errorMsg" style="color:red; display:none; margin-top:10px;">❌ Sai mật khẩu!</p>
+  </div>
+
+  <!-- Album -->
+  <div id="album">
+    <div class="hearts"></div>
+
+    <header>
+      <h1>💌 Gửi đến em, người con gái anh thương 💌</h1>
+      <p>Một góc nhỏ nơi anh cất giữ những kỷ niệm đẹp cùng em 💖</p>
+    </header>
+
+    <section class="gallery" id="gallery"></section>
+
+    <footer>
+      "Dù mai này có ra sao, anh vẫn muốn nói rằng: Em là điều tuyệt vời nhất từng đến trong đời anh." 💕
+    </footer>
+  </div>
+
+  <script>
+    const SECRET_KEY = "iloveyou";  
+
+    function checkKey() {
+      const input = document.getElementById("secretInput").value;
+      if (input === SECRET_KEY) {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("album").style.display = "block";
+        loadGallery();
+        startHearts();
+      } else {
+        document.getElementById("errorMsg").style.display = "block";
+      }
+    }
+
+    // 👉 Danh sách caption cho từng ảnh
+    const captions = [
+      "Ngày em cười thật xinh 😊",
+      "Kỷ niệm ở Đà Lạt 🌲",
+      "Lần đầu đi xem phim cùng nhau 🎬",
+      "Ngày đặc biệt của chúng ta 💕",
+      "Em trong mắt anh là duy nhất ✨",
+      "Khoảnh khắc khó quên 🌸",
+      "Chuyến đi biển thật vui 🏖️",
+      "Bữa ăn ngọt ngào 🍰",
+      "Anh luôn nhớ khoảnh khắc này 💞",
+      "Mãi bên nhau bạn nhé 💍"
+    ];
+
+    function loadGallery() {
+      const totalImages = 12; 
+      const gallery = document.getElementById("gallery");
+      for (let i = 1; i <= totalImages; i++) {
+        const item = document.createElement("div");
+        item.className = "gallery-item";
+
+        const img = document.createElement("img");
+        img.src = `images/${i}.jpeg`;
+        img.alt = `Ảnh kỷ niệm ${i}`;
+
+        const overlay = document.createElement("div");
+        overlay.className = "overlay";
+        overlay.textContent = captions[i-1] || "Kỷ niệm ngọt ngào 💖";
+
+        item.appendChild(img);
+        item.appendChild(overlay);
+        gallery.appendChild(item);
+      }
+    }
+
+    function startHearts() {
+      const heartsContainer = document.querySelector('.hearts');
+      function createHeart() {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.innerText = '❤';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.fontSize = Math.random() * 20 + 15 + 'px';
+        heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+        heartsContainer.appendChild(heart);
+        setTimeout(() => heart.remove(), 7000);
+      }
+      setInterval(createHeart, 400);
+    }
+  </script>
+</body>
+</html>
